@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+const vuexModule = require('./commands/VuexModule');
+const adminModule = require('./commands/AdminModule');
+
+const yargs = require('yargs');
+
+const args = yargs
+  .command('vuex:module', '', yargs => yargs.option('name', { describe: 'Name of the new module', demandOption: true})
+    .option('actions', { describe: 'Comma-separated list of actions', requiresArg: true })
+    .option('crud', { describe: 'Create CRUD actions', conflicts: 'actions', boolean: true })
+  )
+  .command('admin:module', '', yargs => yargs.option('name', { desc: 'Name of the new Module', demandOption: true})
+    .option('vuex', { desc: 'Name of the corresponding vuex module', conflicts: 'createVuex' })
+    .option('vuexVar', { desc: 'Name of the variable to bind to Data in edit/details views', demandOption: true})
+    .option('createVuex', { desc: 'create Vuex Module when running this command', boolean: true })
+  )
+  .argv;
+
+const command = args._[0];
+
+switch (command) {
+  case 'admin:module':
+    if(args.name){
+      adminModule.create(args);
+    }
+    break;
+  case 'vuex:module':
+    if(args.name) {
+      vuexModule.create(args);
+    } else {
+      args.help;
+    }
+    break;
+}
