@@ -3,7 +3,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 
 const installComponents = (framework) => {
-  exec(`npm install --save /home/apokdev/inventos/apok-admin-components-${framework.toLowerCase()}`, (error, stdout, stderr) => {
+  exec(`npm install --save @apok/admin-components-${framework.toLowerCase()}`, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
