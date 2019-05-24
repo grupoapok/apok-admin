@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+
+$mdi-font-path: "~@mdi/font/fonts" !default;
+@import '~@mdi/font/scss/materialdesignicons';
+
+@import './variables';
+
+body {
+
+}
+
+@mixin materialIconSize($size) {
+  font-size: $size;
+  width: $size;
+}
+
+.material-icons,.material-icons-outlined {
+  width: 24px;
+  vertical-align: middle;
+  &.md-18 {
+    @include materialIconSize(18px);
+  }
+  &.md-24 {
+    @include materialIconSize(24px);
+  }
+  &.md-36 {
+    @include materialIconSize(36px);
+  }
+  &.md-48 {
+    @include materialIconSize(48px);
+  }
+}
+
+.alert {
+  max-width: 300px;
+  max-height: 6em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  .close {
+    outline: none !important;
+  }
+}
+
+.input-group {
+  &.readOnly {
+    .input-group-prepend {
+      &.input-icon-left{
+        .input-group-text {
+          background-color: $input-disabled-bg !important;
+        }
+      }
+    }
+    .input-group-append {
+      &.input-icon-right {
+        .input-group-text {
+          background-color: $input-disabled-bg !important;
+        }
+      }
+    }
+  }
+  .input-group-prepend {
+    &.input-icon-left {
+      .input-group-text{
+        border-right: none !important;
+        background: transparent !important;
+      }
+      + .form-control {
+        border-left: none !important;
+        padding-left: 0;
+      }
+    }
+  }
+  .form-control{
+    transition: all .5s;
+    &.has-icon-right {
+      border-right: none;
+      padding-right: 0;
+      + .input-group-append{
+        &.input-icon-right {
+          .input-group-text {
+            transition: all .5s;
+            border-left: none !important;
+            background: transparent;
+          }
+        }
+      }
+    }
+  }
+}
+
+.form-group{
+  &.is-invalid {
+    .input-group-prepend, .input-group-append {
+      .input-group-text{
+        color: $form-feedback-invalid-color;
+        border-color: $form-feedback-invalid-color !important;
+      }
+    }
+  }
+}
+
+td, th {
+  &.compact {
+    width: .1em;
+  }
+}

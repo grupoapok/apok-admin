@@ -1,24 +1,44 @@
 {
-  "name": "apok-admin",
+  "name": "@apok/admin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "create": "node cli/create.js",
+    "postinstall": "node scripts/postinstall.js && node scripts/components.js"
   },
   "dependencies": {
+    "@mdi/font": "^3.6.95",
+    "apollo-boost": "^0.3.1",
+    "apollo-cache-inmemory": "^1.5.1",
+    "apollo-client": "^2.5.1",
+    "apollo-link-error": "^1.1.10",
+    "apollo-link-http": "^1.5.14",
     "core-js": "^2.6.5",
+    "graphql": "^14.3.0",
+    "graphql-tag": "^2.10.1",
+    "js-cookie": "^2.2.0",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.clonedeep": "^4.5.0",
+    "moment": "^2.24.0",
+    "node-sass": "^4.9.0",
     "register-service-worker": "^1.6.2",
+    "sass-loader": "^7.1.0",
     "vue": "^2.6.10",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-i18n": "^1.11.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",
     "@vue/cli-plugin-pwa": "^3.7.0",
     "@vue/cli-service": "^3.7.0",
-    "node-sass": "^4.9.0",
-    "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "enquirer": "^2.3.0",
+    "ncp": "^2.0.0",
+    "prompt-radio": "^1.2.1",
+    "vue-template-compiler": "^2.5.21",
+    "yargs": "^13.2.4"
   }
 }
