@@ -12,7 +12,7 @@
 
 <script>
   import { mapActions, mapState } from 'vuex';
-  import ValidationError from '@apok/admin/src/plugins/network/ValidationError'
+  import ValidationError from '@apok/admin/vue/plugins/network/ValidationError'
 
   export default {
     name: '%MODULE_NAME%Edit',

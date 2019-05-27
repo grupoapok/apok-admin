@@ -9,7 +9,6 @@ import store from '@/store';
 import ValidationError from '../ValidationError';
 
 class GraphQLClient extends NetworkClient {
-  client;
 
   constructor(params) {
     super();

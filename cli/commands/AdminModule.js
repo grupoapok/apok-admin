@@ -47,6 +47,7 @@ const create = ({
       name,
       crud: snakeCase(vuexVar).toUpperCase(),
     });
+    vuex = name
   }
 
   const destFolder = `src/features/${name}`;
@@ -60,8 +61,8 @@ const create = ({
   const ROUTES_FILE = `${destFolder}/routes.js`;
 
   createEntryComponent(ENTRY_PAGE_FILE, name);
-  createListComponent(LIST_PAGE_FILE, name, name, capitalize(vuexVar));
-  createEditComponent(EDIT_PAGE_FILE, name, name, capitalize(vuexVar), camelCase(vuexVar));
+  createListComponent(LIST_PAGE_FILE, name, vuex, capitalize(vuexVar));
+  createEditComponent(EDIT_PAGE_FILE, name, vuex, capitalize(vuexVar), camelCase(vuexVar));
   createRoutesFile(ROUTES_FILE, name);
   fs.writeFileSync(`${destFolder}/form.js`, 'export default [];');
   fs.writeFileSync(`${destFolder}/${name}.i18n.js`, 'export default {};');

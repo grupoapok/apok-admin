@@ -1,8 +1,7 @@
 class ValidationError extends Error{
-    fields = []
-
     constructor(errorDef){
         super('Validation Error');
+        this.fields = {};w
         Object.keys(errorDef).forEach(field => {
             if (Array.isArray(errorDef[field])){
                 this.fields[field] = errorDef[field][0]
