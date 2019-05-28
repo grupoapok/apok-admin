@@ -1,36 +1,50 @@
 <template>
-  <admin-table
-    hover
-    :loading="loading"
+  <div>
+    <admin-table
+      hover
+      :loading="loading"
 
-    :create-route="{ name: '%MODULE_NAME%New' }"
-    :current-page="currentPage"
-    :total-pages="totalPages"
-    :page-size="pageSize"
-    @pageChanged="loadPage"
+      :create-route="{ name: '%MODULE_NAME%New' }"
+      :current-page="currentPage"
+      :total-pages="totalPages"
+      :page-size="pageSize"
+      @pageChanged="loadPage"
 
-    :items="list[currentPage]"
-    :fields="fields"
-    :actions="actions"
-    @Edit="doEdit"
-    @View="doView"
-    @Delete="confirmDelete"
+      :items="list[currentPage]"
+      :fields="fields"
+      :actions="actions"
+      @Edit="doEdit"
+      @View="doView"
+      @Delete="confirmDelete"
 
-    :sort-field="orderBy.field"
-    :sort-direction="orderBy.order"
-    @sort="updateSortField"
+      :sort-field="orderBy.field"
+      :sort-direction="orderBy.order"
+      @sort="updateSortField"
 
-    :filters="filters"
-    :filters-fields="filtersFields"
-    @filtersUpdated="filtersUpdated"
-  >
-    <!-- Custom cell formatting Example -->
-    <!--
-    <template v-slot:email="{ item }">
-      <a :href="`mailto:${item.email}`" target="_blank">{{ item.email }}</a>
-    </td>
-    -->
-  </admin-table>
+      :filters="filters"
+      :filters-fields="filtersFields"
+      @filtersUpdated="filtersUpdated"
+
+      @refresh="refresh"
+    >
+      <!-- Custom cell formatting Example -->
+      <!--
+      <template v-slot:email="{ item }">
+        <a :href="`mailto:${item.email}`" target="_blank">{{ item.email }}</a>
+      </td>
+      -->
+    </admin-table>
+
+    <b-modal
+      :visible="showConfirm"
+      :title="$t('dialogs.delete.title')"
+      @ok="doDelete"
+      @cancel="showDeleteConfirm = false"
+      @hidden="showDeleteConfirm = false"
+    >{{ 'dialogs.delete.text' | translate }}
+    </b-modal>
+
+  </div>
 </template>
 
 <script>
@@ -76,14 +90,10 @@
       doView(id) {
         this.$router.push({ name: '%MODULE_NAME%View', params: { id } });
       },
-      confirmDelete(id) {
-        this.$dialog.confirm({
-          title: 'Confirm Delete',
-          message: 'Are you sure you want to <b>delete</b> this record? This action cannot be undone.',
-          type: 'is-danger',
-          hasIcon: true,
-          onConfirm: () => this.deleteItem(id)
-        })
+      doDelete() {
+        this.deleteItem(this.idToDelete);
+        this.idToDelete = null;
+        this.showDeleteConfirm = false;
       },
     },
   };

@@ -3,6 +3,8 @@ import { mapState, mapActions } from 'vuex';
 export default namespace => ({
   data() {
     return {
+      idToDelete: null,
+      showDeleteConfirm: false,
       orderBy: {
         field: null,
         order: 'asc'
@@ -49,12 +51,26 @@ export default namespace => ({
     filtersUpdated() {
       this.resetList();
       this.loadPage(1)
-    }
+    },
+    confirmDelete(id) {
+      this.idToDelete = id;
+      if (this.$dialog) {
+        this.$dialog.confirm({
+          title: this.$t('dialogs.delete.title'),
+          message: this.$t('dialogs.delete.text'),
+          type: 'is-danger',
+          hasIcon: true,
+          onConfirm: () => this.doDelete()
+        })
+      } else {
+        this.showDeleteConfirm = true;
+      }
+    },
   },
   watch: {
     orderBy() {
       this.resetList().then(() => this.loadPage(this.currentPage))
-    }
+    },
   },
   mounted() {
     this.loadPage(this.currentPage);

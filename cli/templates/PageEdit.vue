@@ -13,13 +13,13 @@
 <script>
   import { mapActions, mapState } from 'vuex';
   import ValidationError from '@apok/admin/vue/plugins/network/ValidationError'
+  import fields from '../form';
 
   export default {
     name: '%MODULE_NAME%Edit',
-    components: { AdminForm },
     data() {
       return {
-        fields: [],
+        fields,
         %CRUD_OBJECT_VAR%: {},
       };
     },
