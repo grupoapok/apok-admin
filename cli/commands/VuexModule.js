@@ -1,6 +1,5 @@
 const fs = require('fs');
-const camelCase = require('lodash/camelCase');
-const join = require('lodash/join');
+const camelCase = require('lodash.camelcase');
 const utils = require('../utils/index');
 
 const createIndexFile = (indexFile) => {
@@ -37,7 +36,7 @@ const createActionsFile = (actionsFile, actionsArr, crud) => {
     actionsStart = '';
   }
 
-  const actionsForImport = prepend + join(actionsArr, separator) + append;
+  const actionsForImport = prepend + actionsArr.join(separator) + append;
 
   fs.open(actionsFile, 'w', (err, file) => {
     fs.appendFileSync(file, '// import Vue from \'vue\';\n');
@@ -68,7 +67,7 @@ const createMutationsFile = (mutationsFile, actionsArr, crud) => {
     actionsStart = '';
   }
 
-  const actionsForImport = prepend + join(actionsArr, separator) + append;
+  const actionsForImport = prepend + actionsArr.join(separator) + append;
 
   fs.open(mutationsFile, 'w', (err, file) => {
     if (!crud) {

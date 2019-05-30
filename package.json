@@ -1,15 +1,15 @@
 {
   "name": "@apok/admin",
-  "version": "0.1.1-rc.6",
+  "version": "0.1.1-rc.7",
   "bin": {
     "apok-admin-create": "./cli/create"
   },
   "dependencies": {
     "lodash.camelcase": "^4.3.0",
+    "lodash.capitalize": "^4.2.1",
     "lodash.clonedeep": "^4.5.0",
+    "lodash.snakecase": "^4.1.1",
     "yargs": "^13.2.4"
   },
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }

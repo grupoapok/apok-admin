@@ -36,7 +36,7 @@
     </admin-table>
 
     <b-modal
-      :visible="showConfirm"
+      :visible="showDeleteConfirm"
       :title="$t('dialogs.delete.title')"
       @ok="doDelete"
       @cancel="showDeleteConfirm = false"

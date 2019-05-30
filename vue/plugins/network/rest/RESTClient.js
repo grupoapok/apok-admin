@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueResource from "vue-resource";
 import Cookies from "js-cookie";
 import router from "@/router";
-import NetworkClient from "./NetworkClient";
+import NetworkClient from "../NetworkClient";
 
 class RESTClient extends NetworkClient {
   constructor(params) {
@@ -56,8 +56,8 @@ class RESTClient extends NetworkClient {
     return promise.then(response => response.body);
   }
 
-  executeVuexAction(context, action, url, params, method = "get") {
-    context.commit(action, { meta: "PENDING" });
+  executeVuexRequest(context, action, url, params, method = "get") {
+    context.commit(action, { meta: "PENDING", data: params });
     const reqPromise = this.executeRequest(url, params, method);
     return new Promise((resolve, reject) => {
       reqPromise

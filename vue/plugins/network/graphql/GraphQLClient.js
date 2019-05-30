@@ -1,34 +1,34 @@
-import NetworkClient from './NetworkClient';
-import { HttpLink } from 'apollo-link-http';
-import { ApolloClient } from 'apollo-client';
-import { ApolloLink } from 'apollo-boost';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { onError } from 'apollo-link-error';
-import Cookies from 'js-cookie';
-import store from '@/store';
-import ValidationError from '../ValidationError';
+import NetworkClient from "../NetworkClient";
+import { HttpLink } from "apollo-link-http";
+import { ApolloClient } from "apollo-client";
+import { ApolloLink } from "apollo-boost";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { onError } from "apollo-link-error";
+import Cookies from "js-cookie";
+import store from "@/store";
+import ValidationError from "../ValidationError";
 
 class GraphQLClient extends NetworkClient {
-
   constructor(params) {
     super();
 
     const httpLink = new HttpLink({
-      uri: params.baseUrl,
+      uri: params.baseUrl
     });
 
     const logoutLink = onError(({ networkError, graphQLErrors, ...others }) => {
       if (graphQLErrors) {
         const error = graphQLErrors[0];
         if (
-          (error.hasOwnProperty('message') && error.message.toLowerCase() === 'unauthenticated')
+          error.hasOwnProperty("message") &&
+          error.message.toLowerCase() === "unauthenticated"
         ) {
-          store.dispatch('auth/logout', { root: true });
+          store.dispatch("auth/logout", { root: true });
         }
       }
       if (networkError) {
         if (networkError.statusCode === 401) {
-          store.dispatch('auth/logout', { root: true });
+          store.dispatch("auth/logout", { root: true });
         }
       }
     });
@@ -39,9 +39,9 @@ class GraphQLClient extends NetworkClient {
       // Use the setContext method to set the HTTP headers.
       operation.setContext({
         headers: {
-          Authorization: sessionCookie ? `Bearer ${sessionCookie}` : '',
-          Accept: 'application/json',
-        },
+          Authorization: sessionCookie ? `Bearer ${sessionCookie}` : "",
+          Accept: "application/json"
+        }
       });
 
       // Call the next link in the middleware chain.
@@ -53,28 +53,28 @@ class GraphQLClient extends NetworkClient {
       link: logoutLink.concat(authLink.concat(httpLink)), // Chain it with the HttpLink
       // Using a cache for blazingly
       // fast subsequent queries.
-      cache: new InMemoryCache({ resultCaching: false }),
+      cache: new InMemoryCache({ resultCaching: false })
     });
   }
 
-  executeRequest(url, params, method = 'QUERY') {
+  executeRequest(url, params, method = "QUERY") {
     const reqMethod = method.toLowerCase();
     let promise;
     const variables = { ...params };
     switch (reqMethod) {
-      case 'query':
+      case "query":
         promise = this.client.query({
           query: url,
           variables,
-          fetchPolicy: params.fetchPolicy || 'network-only',
+          fetchPolicy: params.fetchPolicy || "network-only"
         });
         break;
-      case 'mutation':
-      case 'mutate':
+      case "mutation":
+      case "mutate":
         promise = this.client.mutate({
           mutation: url,
           variables,
-          errorPolicy: params.errorPolicy || 'all',
+          errorPolicy: params.errorPolicy || "all"
         });
         break;
       default:
@@ -83,22 +83,27 @@ class GraphQLClient extends NetworkClient {
     return promise;
   }
 
-  executeVuexAction(context, action, url, params, method = 'QUERY') {
-    context.commit(action, { meta: 'PENDING', data: params });
+  executeVuexRequest(context, action, url, params, method = "QUERY") {
+    context.commit(action, { meta: "PENDING", data: params });
     return new Promise((resolve, reject) => {
       this.executeRequest(url, params, method)
         .then(response => {
-          if (response.hasOwnProperty('errors')) {
-            if (response.errors[0].hasOwnProperty('extensions') && response.errors[0].extensions.category === 'validation') {
-              throw new ValidationError(response.errors[0].extensions.validation);
+          if (response.hasOwnProperty("errors")) {
+            if (
+              response.errors[0].hasOwnProperty("extensions") &&
+              response.errors[0].extensions.category === "validation"
+            ) {
+              throw new ValidationError(
+                response.errors[0].extensions.validation
+              );
             }
             throw new Error(response.errors);
           }
-          context.commit(action, { meta: 'SUCCESS', data: response.data });
+          context.commit(action, { meta: "SUCCESS", data: response.data });
           resolve(response);
         })
         .catch(error => {
-          context.commit(action, { meta: 'ERROR', data: error });
+          context.commit(action, { meta: "ERROR", data: error });
           reject(error);
         });
     });

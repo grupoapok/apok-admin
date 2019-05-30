@@ -16,7 +16,7 @@ class NetworkClient {
     throw new Error("Abstract Method not overriden by subclass");
   }
 
-  executeVuexAction(context, action, url, params, method = 'get') {
+  executeVuexRequest(context, action, url, params, method = 'get') {
     throw new Error("Abstract Method not overriden by subclass");
   }
 }
