@@ -7,8 +7,7 @@ import NetworkClient from "../NetworkClient";
 class RESTClient extends NetworkClient {
   constructor(params) {
     super();
-    this.baseUrl = params.baseUrl
-
+    this.baseUrl = params.baseUrl;
     Vue.use(VueResource);
     Vue.http.options.root = params.baseUrl;
 
