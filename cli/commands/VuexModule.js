@@ -1,7 +1,8 @@
 const fs = require('fs');
 const camelCase = require('lodash.camelcase');
-const snakeCase = require('lodash.snakeCase');
+const snakeCase = require('lodash.snakeCase')
 const utils = require('../utils/index');
+const testFiles =  require('./addTests');
 
 const createIndexFile = (indexFile) => {
   fs.open(indexFile, 'w', (err, file) => {
@@ -104,7 +105,7 @@ const createMutationsFile = (mutationsFile, actionsArr, crud) => {
   });
 };
 
-const create = ({ name, actions, crud }) => {
+const create = ({ name, actions, crud, withTests }) => {
   const destFolder = `src/features/${name}/store`;
 
   const TYPES_FILE = `${destFolder}/types.js`;
@@ -132,15 +133,19 @@ const create = ({ name, actions, crud }) => {
   utils.mkdir(destFolder);
 
   createIndexFile(INDEX_FILE);
-
   if (!crud) {
     createTypesFile(TYPES_FILE, actionsArr);
   }
-
   createActionsFile(ACTIONS_FILE, actionsArr, crud);
-
   createMutationsFile(MUTATIONS_FILE, actionsArr, crud);
 
+  if(withTests){
+    const testDestFolder = `src/features/${name}/__tests__`
+    const TEST_FILE = `${testDestFolder}/${name}`;
+    utils.mkdir(testDestFolder);
+    testFiles.createMutationsTestFile(TEST_FILE, actionsArr);
+    testFiles.createActionsTestFile(TEST_FILE, actionsArr);
+  }
   console.log('Done!!');
 };
 
