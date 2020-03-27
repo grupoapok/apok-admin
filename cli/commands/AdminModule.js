@@ -10,6 +10,7 @@ const createEntryComponent = (entryPageFile, name) => {
   let entryPageContent = fs.readFileSync(entryPageFile, 'utf-8');
   entryPageContent = entryPageContent.replace(/\%MODULE_NAME\%/g, name);
   fs.writeFileSync(entryPageFile, entryPageContent);
+  console.log("Created entry component!")
 };
 
 const createListComponent = (listPageFile, moduleName, vuexModule, crudObject) => {
@@ -19,6 +20,7 @@ const createListComponent = (listPageFile, moduleName, vuexModule, crudObject) =
   listPageContent = listPageContent.replace(/\%VUEX_MODULE\%/g, vuexModule);
   listPageContent = listPageContent.replace(/\%CRUD_OBJECT\%/g, crudObject);
   fs.writeFileSync(listPageFile, listPageContent);
+  console.log("Created list component!")
 };
 
 const createEditComponent = (editPageFile, moduleName, vuexModule, crudObject, crudObjectVar) => {
@@ -29,14 +31,16 @@ const createEditComponent = (editPageFile, moduleName, vuexModule, crudObject, c
   editPageContent = editPageContent.replace(/\%CRUD_OBJECT\%/g, crudObject);
   editPageContent = editPageContent.replace(/\%CRUD_OBJECT_VAR\%/g, crudObjectVar);
   fs.writeFileSync(editPageFile, editPageContent);
+  console.log("Created edit component!")
 };
 
 const createRoutesFile = (routesFile, moduleName) => {
   fs.copyFileSync('node_modules/@apok/admin/cli/templates/PageRoutes.js', routesFile);
   let routesFileContent = fs.readFileSync(routesFile, 'utf-8');
   routesFileContent = routesFileContent.replace(/\%MODULE_NAME\%/g, moduleName);
-  routesFileContent = routesFileContent.replace(/\%MODULE_NAME_LOWER\%/g, moduleName.toLowerCase());
+  //routesFileContent = routesFileContent.replace(/\%MODULE_NAME_LOWER\%/g, moduleName.toLowerCase());
   fs.writeFileSync(routesFile, routesFileContent);
+  console.log("Created routes file!")
 };
 
 const create = ({
@@ -47,7 +51,11 @@ const create = ({
       name,
       crud: snakeCase(vuexVar).toUpperCase(),
     });
-    vuex = name
+  }else if(vuex){
+    vuexModule.create({
+      name,
+      actions: 'NAME_PLACEHOLDER',
+    })
   }
 
   const destFolder = `src/features/${name}`;
