@@ -1,7 +1,6 @@
 {
   "name": "@josercl/vue-admin",
   "version": "0.0.1",
-  "private": true,
   "bin": {
     "admin-create": "cli/create"
   },
