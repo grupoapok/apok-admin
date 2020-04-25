@@ -4,6 +4,10 @@
   "bin": {
     "admin-create": "cli/create"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/vue-admin/vue-admin"
+  },
   "dependencies": {
     "core-js": "^3.6.4",
     "lodash.camelcase": "^4.3.0",
