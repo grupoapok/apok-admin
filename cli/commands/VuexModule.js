@@ -1,6 +1,8 @@
 const fs = require('fs');
 const camelCase = require('lodash.camelcase');
+const snakeCase = require('lodash.snakeCase')
 const utils = require('../utils/index');
+const testFiles =  require('./addTests');
 
 const createIndexFile = (indexFile) => {
   fs.open(indexFile, 'w', (err, file) => {
@@ -16,7 +18,7 @@ const createTypesFile = (typesFile, actionsArr) => {
   fs.open(typesFile, 'w', (err, file) => {
     if (err) { throw err; }
     actionsArr.forEach((a) => {
-      fs.appendFileSync(file, `export const ${a} = '${a}';\n`);
+      fs.appendFileSync(file, `export const ${snakeCase(a).toUpperCase()} = '${a}';\n`);
     });
     console.log('Created types.js');
   });
@@ -36,7 +38,11 @@ const createActionsFile = (actionsFile, actionsArr, crud) => {
     actionsStart = '';
   }
 
-  const actionsForImport = prepend + actionsArr.join(separator) + append;
+  let actionsForImport = "";
+  actionsArr.forEach((a)=>{
+    actionsForImport += snakeCase(a).toUpperCase() + separator
+  });
+  //const actionsForImport = prepend + actionsArr.join(separator) + append;
 
   fs.open(actionsFile, 'w', (err, file) => {
     fs.appendFileSync(file, '// import Vue from \'vue\';\n');
@@ -47,7 +53,7 @@ const createActionsFile = (actionsFile, actionsArr, crud) => {
     }
     actionsArr.forEach((act) => {
       const actionName = camelCase(act);
-      fs.appendFileSync(file, `\nexport const ${actionName} = (context) => {\n  context.commit(${act});\n};\n`);
+      fs.appendFileSync(file, `\nexport const ${actionName} = (context) => {\n  context.commit(${snakeCase(act).toUpperCase()});\n};\n`);
     });
     console.log('Created actions.js');
   });
@@ -67,7 +73,11 @@ const createMutationsFile = (mutationsFile, actionsArr, crud) => {
     actionsStart = '';
   }
 
-  const actionsForImport = prepend + actionsArr.join(separator) + append;
+  let actionsForImport = "";
+  actionsArr.forEach((a)=>{
+    actionsForImport += snakeCase(a).toUpperCase() + separator
+  });
+  //const actionsForImport = prepend + actionsArr.join(separator) + append;
 
   fs.open(mutationsFile, 'w', (err, file) => {
     if (!crud) {
@@ -88,14 +98,14 @@ const createMutationsFile = (mutationsFile, actionsArr, crud) => {
     fs.appendFileSync(file, '};\n\n');
     fs.appendFileSync(file, 'export const mutations = {\n');
     actionsArr.forEach((act) => {
-      fs.appendFileSync(file, `  [${act}](state, payload) {\n    console.log(state, payload);\n  },\n`);
+      fs.appendFileSync(file, `  [${snakeCase(act).toUpperCase()}](state, payload) {\n    console.log(state, payload);\n  },\n`);
     });
     fs.appendFileSync(file, '};\n');
     console.log('Created mutations.js');
   });
 };
 
-const create = ({ name, actions, crud }) => {
+const create = ({ name, actions, crud, withTests }) => {
   const destFolder = `src/features/${name}/store`;
 
   const TYPES_FILE = `${destFolder}/types.js`;
@@ -123,15 +133,19 @@ const create = ({ name, actions, crud }) => {
   utils.mkdir(destFolder);
 
   createIndexFile(INDEX_FILE);
-
   if (!crud) {
     createTypesFile(TYPES_FILE, actionsArr);
   }
-
   createActionsFile(ACTIONS_FILE, actionsArr, crud);
-
   createMutationsFile(MUTATIONS_FILE, actionsArr, crud);
 
+  if(withTests){
+    const testDestFolder = `src/features/${name}/__tests__`
+    const TEST_FILE = `${testDestFolder}/${name}`;
+    utils.mkdir(testDestFolder);
+    testFiles.createMutationsTestFile(TEST_FILE, actionsArr);
+    testFiles.createActionsTestFile(TEST_FILE, actionsArr);
+  }
   console.log('Done!!');
 };
 
