@@ -33,13 +33,13 @@ const createEditComponent = (editPageFile, moduleName, vuexModule, crudObject, c
   editPageContent = editPageContent.replace(/\%CRUD_OBJECT_VAR\%/g, crudObjectVar);
   fs.writeFileSync(editPageFile, editPageContent);
   console.log("Created edit component!")
-
 };
 
 const createRoutesFile = (routesFile, moduleName) => {
   fs.copyFileSync('node_modules/@apok/admin/cli/templates/PageRoutes.js', routesFile);
   let routesFileContent = fs.readFileSync(routesFile, 'utf-8');
   routesFileContent = routesFileContent.replace(/\%MODULE_NAME\%/g, moduleName);
+  routesFileContent = routesFileContent.replace(/\%MODULE_NAME_LOWER\%/g, moduleName.toLowerCase());
   fs.writeFileSync(routesFile, routesFileContent);
   console.log("Created routes file!")
 };
@@ -54,7 +54,7 @@ const create = ({ name, vuex, vuexVar, createVuex, withTests }) => {
   }else if(vuex){
     vuexModule.create({
       name,
-      actions: 'NAME_PLACEHOLDER',
+      actions: 'ACTION_NAME_PLACEHOLDER',
       withTests
     });
   }
@@ -81,8 +81,6 @@ const create = ({ name, vuex, vuexVar, createVuex, withTests }) => {
     utils.mkdir(testDestFolder);
     testFiles.createComponentsTestFile(testDestFolder, name);
   }
-
-
 };
 
 module.exports = {
