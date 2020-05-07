@@ -38,7 +38,6 @@ const createActionsFile = (actionsFile, actionsArr, crud) => {
     actionsStart = '';
   }
 
-<<<<<<< HEAD
   let actionsForImport = "";
   actionsArr.forEach((a) => {
     actionsForImport += snakeCase(a).toUpperCase() + separator

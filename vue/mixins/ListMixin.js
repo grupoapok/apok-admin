@@ -1,3 +1,4 @@
+/* eslint-disabled */
 import { mapState, mapActions } from 'vuex';
 
 export default namespace => ({

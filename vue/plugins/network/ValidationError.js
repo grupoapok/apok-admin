@@ -1,3 +1,5 @@
+/* eslint-disabled */
+
 class ValidationError extends Error{
     constructor(errorDef){
         super('Validation Error');
