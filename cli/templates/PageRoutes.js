@@ -5,18 +5,14 @@ export default {
     {
       path: '/',
       name: '%MODULE_NAME%List',
+      props: true,
       component: () => import(/* webpackChunkName: "%MODULE_NAME%_list" */ './views/%MODULE_NAME%List.vue')
     },
     {
       path: 'edit/:id',
       name: '%MODULE_NAME%Edit',
+      props: true,
       component: () => import(/* webpackChunkName: "%MODULE_NAME%_edit" */ './views/%MODULE_NAME%Edit.vue')
-    },
-    {
-      path: 'view/:id',
-      name: '%MODULE_NAME%View',
-      component: () => import(/* webpackChunkName: "%MODULE_NAME%_edit" */ './views/%MODULE_NAME%Edit.vue'),
-      props: { readonly: true },
     },
     {
       path: 'create',
