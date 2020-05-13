@@ -79,7 +79,7 @@ Various configuration files. Feel free to modify them as you need
 
 - ### Features
 All modules created with the plugin's CLI commands goes here. Every new module
- shall have its own folder with the necessary files for it to work. Check [Console Commands](#console-comands) for more info.
+ shall have its own folder with the necessary files for it to work. Check [Console Commands](#console-commands) for more info.
 
 - ### i18n
 Contains sample translations for the project. Edit or create as you need
