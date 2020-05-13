@@ -7,7 +7,7 @@ The VueJS plugin for REST and GraphQL web client projects
 - [Folder structure](#folder-structure)
 - [Usage](#usage)
 - [Components](#components)
-- [Renderers](#components)
+- [Renderers](#renderers)
   
 ## Installation
 As a [vue-cli plugin](https://cli.vuejs.org/guide/plugins-and-presets.html) 
