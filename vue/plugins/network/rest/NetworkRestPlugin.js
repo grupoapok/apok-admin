@@ -1,8 +1,9 @@
 import RESTClient from "./RESTClient";
+import Vue from 'vue';
 
 const NetworkRestPlugin = {
-  install(vue, options) {
-    vue.$rest = new RESTClient(options);
+  install(Vue, options) {
+    Vue.rest = new RESTClient(options);
   }
 };
 
