@@ -1,21 +1,18 @@
-import Vue from "vue";
-import axios from 'axios';
-
-export const executeVuexRequest = (context, action, url, params, method = "get") => {
+export const executeVuexRequestFactory = (httpClient) => (context, action, url, params, method = "get") => {
     context.commit(action, { meta: "PENDING", data: params });
     let reqPromise;
     switch(method){
         case "get":
-            reqPromise = axios.get(url, params);
+            reqPromise = httpClient.get(url, params);
             break;
         case "post":
-            reqPromise = axios.post(url, params);
+            reqPromise = httpClient.post(url, params);
             break;
         case "put":
-            reqPromise = axios.put(url, params);
+            reqPromise = httpClient.put(url, params);
             break;
         case "delete":
-            reqPromise = axios.delete(url, params);
+            reqPromise = httpClient.delete(url, params);
             break;
     }
     return new Promise((resolve, reject) => {
