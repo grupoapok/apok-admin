@@ -1,18 +1,18 @@
 <template>
-  <admin-form
+  <form-rendered
     :loading="loading"
     :fields="fields"
     :form-var="%CRUD_OBJECT_VAR%"
     :readonly="readonly"
     @submit="doSubmit"
-    @cancel="$router.go(-1)"
-  >
-  </admin-form>
+    @cancel="goBack"
+  />
 </template>
 
 <script>
   import { mapActions, mapState } from 'vuex';
   import ValidationError from '@apok/admin/vue/plugins/network/ValidationError'
+
   import fields from '../form';
 
   export default {
@@ -28,6 +28,7 @@
         type: Boolean,
         default: false,
       },
+      id: String,
     },
     computed: {
       ...mapState('%VUEX_MODULE%', ['loading', 'currentItem']),
@@ -61,8 +62,8 @@
       },
     },
     mounted() {
-      if (parseInt(this.$route.params.id, 10) !== 0 && !this.currentItem.id) {
-        this.getItem(this.$route.params.id);
+      if (parseInt(this.id, 10) !== 0 && !this.currentItem.id) {
+        this.getItem(this.id);
       }
       if (this.currentItem.id && this.currentItem.id !== this.%CRUD_OBJECT_VAR%.id) {
         this.updateCurrentItem(this.currentItem);

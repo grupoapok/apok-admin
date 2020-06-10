@@ -1,9 +1,7 @@
 <template>
   <div>
-    <admin-table
-      hover
+    <list-renderer
       :loading="loading"
-
       :create-route="{ name: '%MODULE_NAME%New' }"
       :current-page="currentPage"
       :total-pages="totalPages"
@@ -14,7 +12,7 @@
       :fields="fields"
       :actions="actions"
       @Edit="doEdit"
-      @View="doView"
+
       @Delete="confirmDelete"
 
       :sort-field="orderBy.field"
@@ -33,7 +31,8 @@
         <a :href="`mailto:${item.email}`" target="_blank">{{ item.email }}</a>
       </td>
       -->
-    </admin-table>
+
+    </list-renderer>
 
     <b-modal
       :visible="showDeleteConfirm"
@@ -49,6 +48,7 @@
 
 <script>
   import ListMixin from '@apok/admin/vue/mixins/ListMixin';
+
 
   export default {
     mixins: [ListMixin('%VUEX_MODULE%')],
@@ -73,6 +73,7 @@
             },
           },
           {
+
             action: 'Delete',
             text: 'actions.delete',
             props: {
