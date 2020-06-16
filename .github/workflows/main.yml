@@ -1,7 +1,6 @@
 name: npm-publish
 on:
   push:
-   branches: [ master ] 
    tags:
      - "v*"
 jobs:
