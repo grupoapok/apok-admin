@@ -45,22 +45,17 @@ const createActionsFile = (actionsFile, actionsArr, crud) => {
   //const actionsForImport = prepend + actionsArr.join(separator) + append;
 
   fs.open(actionsFile, 'w', (err, file) => {
-    fs.appendFileSync(file, '// import Vue from \'vue\';\n');
-    fs.appendFileSync(file, 'import { processError } from "@/utils/functions";\n');
+    fs.appendFileSync(file, 'import Vue from \'vue\';\n');
     if (!crud) {
       fs.appendFileSync(file, `import {${actionsStart}${actionsForImport}${actionsEnd}} from './types';\n\n`);
     } else {
       fs.appendFileSync(file, `import {${actionsStart}${actionsForImport}${actionsEnd}} from '@/store/ListTypes';\n\n`);
     }
-    /*actionsArr.forEach((act) => {
-      const actionName = camelCase(act);
-      fs.appendFileSync(file, `\nexport const ${actionName} = (context) => {\n  context.commit(${snakeCase(act).toUpperCase()});\n};\n`);
-    });*/
 
     if (crud) {
       const actions = [];
       actionsArr.forEach((act) => {
-        const path = `node_modules/@apok/apok-admin/cli/stubs/actions/${act}.js`;
+        const path = `node_modules/@apok/admin/cli/stubs/actions/${act}.js`;
         if (fs.existsSync(path)) {
           actions.push(fs.readFileSync(path));
         }
@@ -69,7 +64,8 @@ const createActionsFile = (actionsFile, actionsArr, crud) => {
     } else {
       actionsArr.forEach((act) => {
         const actionName = camelCase(act);
-        fs.appendFileSync(file, `\nexport const ${actionName} = (context) => {\n  context.commit(${act});\n};\n`);
+        const mutationName = snakeCase(act).toUpperCase();
+        fs.appendFileSync(file, `\nexport const ${actionName} = (context) => {\n  context.commit(${mutationName});\n};\n`);
       });
     }
     console.log('Created actions.js');
@@ -94,7 +90,6 @@ const createMutationsFile = (mutationsFile, actionsArr, crud) => {
   actionsArr.forEach((a)=>{
     actionsForImport += snakeCase(a).toUpperCase() + separator
   });
-  //const actionsForImport = prepend + actionsArr.join(separator) + append;
 
   fs.open(mutationsFile, 'w', (err, file) => {
     if (!crud) {
@@ -119,13 +114,10 @@ const createMutationsFile = (mutationsFile, actionsArr, crud) => {
     fs.appendFileSync(file, '};\n\n');
     fs.appendFileSync(file, 'export const mutations = {\n');
 
-    actionsArr.forEach((act) => {
-      fs.appendFileSync(file, `  [${snakeCase(act).toUpperCase()}](state, payload) {\n    console.log(state, payload);\n  },\n`);
-    });
     if (crud) {
       const mutations = [];
       actionsArr.forEach((act) => {
-        const path = `node_modules/@apok/apok-admin/cli/stubs/mutations/${act}.js`;
+        const path = `node_modules/@apok/admin/cli/stubs/mutations/${act}.js`;
         if (fs.existsSync(path)) {
           mutations.push(fs.readFileSync(path).toString().trim());
         }
@@ -133,7 +125,8 @@ const createMutationsFile = (mutationsFile, actionsArr, crud) => {
       fs.appendFileSync(file, mutations.join(",\n"));
     } else {
       actionsArr.forEach((act) => {
-        fs.appendFileSync(file, `  [${act}](state, payload) {\n    console.log(state, payload);\n  },\n`);
+        const mutationName = snakeCase(act).toUpperCase()
+        fs.appendFileSync(file, `  [${mutationName}](state, payload) {\n    console.log(state, payload);\n  },\n`);
       });
     }
     fs.appendFileSync(file, '};\n');
