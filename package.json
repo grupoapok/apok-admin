@@ -1,6 +1,6 @@
 {
   "name": "@apok/admin",
-  "version": "0.1.1-rc.9",
+  "version": "0.1.1-rc.10",
   "bin": {
     "apok-admin-create": "./cli/create"
   },
