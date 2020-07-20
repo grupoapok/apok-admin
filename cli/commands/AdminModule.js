@@ -48,14 +48,15 @@ const create = ({ name, vuex, vuexVar, createVuex, withTests }) => {
   if (createVuex) {
     vuexModule.create({
       name,
-      crud: snakeCase(vuexVar).toUpperCase(),
+      crud: createVuex,
       withTests
     });
+    vuex = name;
   }else if(vuex){
     vuexModule.create({
       name,
       actions: 'ACTION_NAME_PLACEHOLDER',
-      withTests
+      withTests,
     });
   }
 

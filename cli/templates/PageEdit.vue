@@ -1,5 +1,5 @@
 <template>
-  <form-rendered
+  <form-renderer
     :loading="loading"
     :fields="fields"
     :form-var="%CRUD_OBJECT_VAR%"

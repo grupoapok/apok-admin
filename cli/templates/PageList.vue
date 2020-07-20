@@ -1,11 +1,12 @@
 <template>
   <div>
-    <list-renderer
+    <table-renderer
       :loading="loading"
       :create-route="{ name: '%MODULE_NAME%New' }"
       :current-page="currentPage"
       :total-pages="totalPages"
       :page-size="pageSize"
+      :allow-pagination="true"
       @pageChanged="loadPage"
 
       :items="list[currentPage]"
@@ -32,7 +33,7 @@
       </td>
       -->
 
-    </list-renderer>
+    </table-renderer>
 
     <b-modal
       :visible="showDeleteConfirm"
