@@ -8,7 +8,7 @@ const yargs = require('yargs');
 const args = yargs
   .command('vuex:module', '', yargs => yargs.option('name', { describe: 'Name of the new module', demandOption: true})
     .option('actions', { describe: 'Comma-separated list of actions', requiresArg: true })
-    .option('crud', { describe: 'Create CRUD actions', conflicts: 'actions', boolean: true })
+    .option('crud', { describe: 'Create CRUD actions', boolean: true })
     .options('withTests', {describe: 'Generate test files for current modules', boolean: true})
   )
   .command('admin:module', '', yargs => yargs.option('name', { desc: 'Name of the new Module', demandOption: true})
