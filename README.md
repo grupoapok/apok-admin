@@ -1,6 +1,31 @@
 # Apok-admin
 
-The VueJS plugin for REST and GraphQL web client projects
+### ***The VueJS plugin for REST and GraphQL web clients projects scaffolding***
+
+When a web application is being develop there are common concepts that come across very often and coding them over and over can be a somewhat painful 
+experience for some developers. During this process of writing repetitive code, human mistakes become a more relevant factor, especially for those lacking
+the expertise. This is why scaffolding is an important resource in terms of efficiency; it allows the developer to focus in the implementation details of 
+the app while letting the scaffolding software to generate the base code. 
+
+And yes, scaffolding might feel like a bad practice in particular for new developers, 
+however, a scaffold does not mean you wont do any coding, it means you can put the effort and creativity into really solving
+a problem, implementing a new feature from scratch without the worry of messing fundamental code. 
+
+Here is where Apok-admin excels at: generating base code for your Vue-js web application. You can create fully working Vuex and admin modules with semantically 
+friendly console commands, start your developing experience ASAP just as the installation ends with all dependencies already added from the beginning, get your
+api (or a mocked one, great for testing) working in minutes just by setting an endpoint, work with ready-to-develop Vue components using the most popular CSS 
+frameworks available,  and many more!
+
+There's a lot of reasons of why you should use Apok-admin, and just to name a few, here's a list of what Apok-admin allow you to:
+
+- Develop what makes your app unique; keeping the base stuff to Apok-admin.
+- Makes the developing faster; by making fully working modules a console command away.
+- Fully customizable code; there's no point on generating a scaffold that you can't customize to suite your needs.
+- Work with ready-to-develop components styled with the most pupular CSS frameworks; made with the intention to accomplished advanced functionality while being easy to use.
+- Create language friendly apps; with i18n make sure your app is international.
+- Choose which icon pack you want and make you app more descriptive; FontAwesome icons, MDI or Unicons for Vue!
+
+Apok-admin is as great as it looks and it's easy to install too! go to the next part and keep reading to get started!
 
 ## Table of Contents
 - [Installation](#installation)
@@ -265,14 +290,51 @@ After installation has been done, your project's source folder should look like 
     | ``types.js`` | Vuex mutations constant types. This file will be generated only if ``--actions`` is used|
      
 - ### i18n
-    Contains sample translations for the project. Edit or create as you need
+    This is your translations folder. Inside should go every javascript file describing wich words i18n should translate to. For more information
+    about this please refer to its [official docs](https://github.com/dkfbasel/vuex-i18n)
 
 - ### Store
-    Project's main Vuex store. Also, contains sample modules for authentication, messages and UI interactions. Edit them as you need
-
+    Project's main Vuex store. This folder contains the main Vuex Store of your project's state management and works the same as specified in
+    vuex's [official docs](https://vuex.vuejs.org/guide/structure.html). In Apok-admin's case there are three default modules that a web app
+    might need: Authentication, Messages and UI for menu toggling. Also there's a folder named ``base`` where you can find a working CRUD store
+    that you might adapt to suite your needs.
+    
+    - #### **``modules`` folder**
+        | Module | Description |
+        |:---:|:---|
+        | ``auth`` | User authentication module. Build with vuex actions and mutations that allows to retrieve a user's data and use it on your components |
+        | ``messages`` | Messages module. Allows messages display on forms for UX purposes |
+        | ``UI`` | User interface module. Has simple menu toggling functions for your UI controls |
+       
+    - #### **``base`` folder**
+        
+        The idea is to give a simple way to implement working CRUD and listing operations for your project. When a vuex module is created with apok-admin's 
+        [console commands option](#console-commands) ``--crud``, the ``storeGenerator`` function will be imported from the ``baseStore.js`` file, 
+        which in turn, has ``baseActions.js`` and ``baseMutations.js`` imported. This allows an easy way to implement such functions on any vuex module you create.
+        
+        | File | Description |
+        |:---:|:---|
+        | ``baseActions.js`` | CRUD actions like getting a item list, deleting a item, saving a new item, updating an item, etc |
+        | ``baseMutations.js`` | Holds the default mutations associated to corresponding CRUD and listing actions mentioned before |
+        | ``baseStore.js`` | This file has a store generator function that allows to create a store with the aforementioned actions and mutat |
+                        
 - ### Tests
-    Contains views components and main Vuex store tests. You can add your own tests here for any custom component if you need to
-
+    Contains views components and main Vuex store tests. All tests are coded between Jest and Vue Test Utils, the last one being the official unit testing 
+    utility library for Vue-js. In this folder should go all of your unit tests that aren't directly related to the modules in the ``features`` directory.
+    There's a couple of test already coded for the main store and view components:
+    
+    | File | Description |
+    |:---:|:---|
+    | About.component.spec.js | About.vue component unit tests |
+    | Dashboard.component.spec.js | Dashboard.vue component unit tests |
+    | Login.component.spec.js | Login.vue component unit tests |
+    | NotFoundPage.component.spec.js | NotFoundPage.vue component unit tests |
+    | MainLayout.component.spec.js | MainLayout.vue component unit tests |
+    | auth.store.spec.js | auth module unit tests |
+    | messages.store.spec.js | messages module unit tests |
+    | ui.store.spec.js | ui module unit tests |
+    
+    
 - ### Utils
     In here goes any utility script you make. It is not required to be into this folder, but highly recommended for the sake of order
     
@@ -281,15 +343,16 @@ After installation has been done, your project's source folder should look like 
     | ``updatedPagedList.js`` | Sample paged list update |
 
 - ### Views
-    Default components for view purposes. You can add as many custom components as you wish for your app's routing. 
+    Default components for view purposes. You can add as many custom components as you wish for your app's pages. 
     It also contains some default components to start with:
     
     | File | Description |
     |:---:|:---|
-    | ``About.vue`` | Sample about view |
-    | ``Dashboard.vue`` | Sample dashboard view |
-    | ``Login.vue`` | Sample login view |
+    | ``About.vue`` | "About Us" page example |
+    | ``Dashboard.vue`` | Dashboard component |
+    | ``Login.vue`` | Functional Login component |
     | ``NotFoundPage.vue`` | Sample error 404 view |
+    | ``MainLayout.vue`` | Main layout wrapper component |
 
 ## Usage
 After installation, the plugin will auto run and start asking the
@@ -300,9 +363,9 @@ again you can use ``vue invoke`` [command](https://cli.vuejs.org/guide/plugins-a
 
 ### Console commands
 Apok-admin comes with built in commands for admin and vuex modules 
-scaffolding that allows the user to add specific functions to their
+scaffolding that allows you to add specific functions to their
 projects. To use each command you must run the ``create`` script added to your
-package.json, like this: 
+package.json after apok-admin's installation, like this: 
 
 ```
 npm run create -- <command> --<option1> --<option2> --<optionN>
@@ -408,8 +471,8 @@ the renderer option in ``main.js``. Learn more about it [here](#renderers).
     | ``LayoutNavBar.vue`` | Navigation bar component |
     | ``LayoutMenu.vue`` | Sample menu component |
     | ``LayoutMenuItem.vue`` | Menu item component for layout menu |
-    | ``LayoutFooter.vue`` | Input type radio component |
-    | ``Dashboard.vue`` | Input type radio component |
+    | ``LayoutFooter.vue`` | Layout's footer component |
+    | ``Dashboard.vue`` | Dashboard component |
   
 - ### Form components
 
@@ -430,6 +493,7 @@ the renderer option in ``main.js``. Learn more about it [here](#renderers).
     
     
 ## Renderers
+
 Apok-admin's components are registered into the Vue instance globally trough renderers, wich
 are just a generic name for a specific type of component. Thus, in case you want to make use
 of your own components, they should be assigned to a renderer in order to be part of the whole instance.
@@ -437,16 +501,15 @@ We've mentioned before an example of how this works. Here is another one with Bu
 
 ```javascript
 // in main.js
-// import bootstrap components and your own
 
 import BulmaAdminComponents from "@apok/admin-components-bulma";
 import myCustomButton from '@/components/myCustomButton'
 import myCustomTable from '@/components/myCustomTable'
 import myCustomForm from '@/components/myCustomForm'
 
-// install bootstrap components as a plugin with an options object for custom components
+// In the admin components installation add your components as an object
 
-Vue.use(BootstrapAdminComponents, {
+Vue.use(BulmaAdminComponents, {
     'ButtonRenderer': myCustomButton,
     'TableRenderer': myCustomTable,
     'FormRenderer': myCustomForm,
@@ -454,8 +517,8 @@ Vue.use(BootstrapAdminComponents, {
 ```
 Then on another component you can use the renderer as you would normally use a component, for instance:
 
-```vue
-// Inside a Vue component template
+```xhtml
+<!-- Inside a Vue component template-->
 
 <template>
     <div>
@@ -465,7 +528,7 @@ Then on another component you can use the renderer as you would normally use a c
     </div>
 </template>
 ```
-You dont need to import in each components since they are already registered globally
+Now you dont need to import every component you wish to use since they are already registered globally
 trough renderers!
 
 This way you can add as much components as renderers are. Now a list of the available
