@@ -1,65 +1,69 @@
 const fs = require('fs');
-const snakeCase = require('lodash.snakeCase')
+const snakeCase = require('lodash.snakeCase');
 
 const createMutationsTestFile = (name, actionsArr) => {
 
-  fs.open(`${name}.mutations.spec.js`, 'w', (err, file) => {
-    fs.appendFileSync(file, "import store from '../store'\n\n");
-    fs.appendFileSync(file, "/*Initial tests for every mutation in module*/\n");
-    fs.appendFileSync(file, "describe(\"Initial tests for mutations\", () => {\n");
+  let tests = '';
+  let imports = '';
+  const mutationsTestFileName = `${name}.mutations.spec.js`;
+  fs.copyFileSync('node_modules/@apok/admin/cli/templates/test/mutations.spec.js', mutationsTestFileName);
+
+  if(actionsArr.length > 0){
+    imports += 'import { ';
     actionsArr.forEach((act) => {
-      fs.appendFileSync(file, "   it('"+snakeCase(act).toUpperCase()+" test', () => {\n"+
+      imports += snakeCase(act).toUpperCase() + ", ";
+      tests +=
+        "   it('"+snakeCase(act).toUpperCase()+" mutation changes state correctly', () => {\n"+
         "     /*Test placeholder*/\n" +
-        "   });\n\n");
+        "   });\n";
     });
-    fs.appendFileSync(file, "});\n");
-    console.log('Created mutations test file!');
-  });
+    imports += "} from '../types';\n"
+  }
+
+  let mutationsTestFileContent = fs.readFileSync(mutationsTestFileName, 'utf-8');
+  mutationsTestFileContent = mutationsTestFileContent.replace(/\%TYPES_IMPORT\%/g, imports);
+  mutationsTestFileContent = mutationsTestFileContent.replace(/\%TESTS\%/g, tests);
+  fs.writeFileSync(mutationsTestFileName, mutationsTestFileContent);
+
+  console.log('Created mutations test file!');
 };
 
 const createActionsTestFile = (name, actionsArr) => {
 
-  fs.open(`${name}.actions.spec.js`, 'w', (err, file) => {
-    fs.appendFileSync(file, "import store from '../store'\n\n");
-    fs.appendFileSync(file, "/*Initial tests for every actions in module*/\n");
-    fs.appendFileSync(file, "describe(\"Initial tests for actions\", () => {\n");
+  let tests = '';
+  let imports = '';
+  const actionsTestFileName = `${name}.actions.spec.js`;
+  fs.copyFileSync('node_modules/@apok/admin/cli/templates/test/actions.spec.js', actionsTestFileName);
+
+  if(actionsArr.length > 0){
+    imports += 'import { ';
     actionsArr.forEach((act) => {
-      fs.appendFileSync(file, "   it('"+act+" test', () => {\n"+
+      imports += snakeCase(act).toUpperCase() + ", ";
+      tests +=
+        "   it('"+act+" action commits the right mutation', () => {\n"+
         "     /*Test placeholder*/\n" +
-        "   });\n\n");
+        "   });\n";
     });
-    fs.appendFileSync(file, "});\n");
-    console.log('Created actions test file!');
-  });
+    imports += "} from '../types';\n"
+  }
+
+  let actionsTestFileContent = fs.readFileSync(actionsTestFileName, 'utf-8');
+  actionsTestFileContent = actionsTestFileContent.replace(/\%TYPES_IMPORT\%/g, imports);
+  actionsTestFileContent = actionsTestFileContent.replace(/\%TESTS\%/g, tests);
+  fs.writeFileSync(actionsTestFileName, actionsTestFileContent);
+
+  console.log('Created actions test file!');
 };
 
 const createComponentsTestFile = (destFolder,  name) => {
 
-  fs.open(`${destFolder+name}.components.spec.js`, 'w', (err, file) => {
-    fs.appendFileSync(file, "import { mount, shallowMount } from '@vue/test-utils'\n");
-    fs.appendFileSync(file, `import ${name} from 'src/features/${name}/views/${name}.vue'\n`);
-    fs.appendFileSync(file, `import ${name}List from 'src/features/${name}/views/${name}List.vue'\n`);
-    fs.appendFileSync(file, `import ${name}Edit from 'src/features/${name}/views/${name}Edit.vue'\n\n`);
+  let componentsTestFileName = `${destFolder+name}.components.spec.js`;
+  fs.copyFileSync('node_modules/@apok/admin/cli/templates/test/components.spec.js', componentsTestFileName);
 
-    fs.appendFileSync(file, `describe('Initial tests for ${name} component in module', () => {\n` +
-      "  it('Placeholder unit test', () => {\n" +
-      "    /*Placeholder*/\n" +
-      "  });\n" +
-      "});\n\n"
-    );
-    fs.appendFileSync(file, `describe('Initial tests for ${name}List component in module', () => {\n` +
-      "  it('Placeholder unit test', () => {\n" +
-      "    /*Placeholder*/\n" +
-      "  });\n" +
-      "});\n\n"
-    );
-    fs.appendFileSync(file, `describe('Initial tests for ${name}Edit component in module', () => {\n` +
-      "  it('Placeholder unit test', () => {\n" +
-      "    /*Placeholder*/\n" +
-      "  });\n" +
-      "});\n\n"
-    );
-  });
+  let componentsTestFileContent = fs.readFileSync(componentsTestFileName, 'utf-8');
+  componentsTestFileContent = componentsTestFileContent.replace(/\%MODULE_NAME\%/g, name);
+  fs.writeFileSync(componentsTestFileName, componentsTestFileContent);
+
   console.log('Created components test file!');
 };
 
