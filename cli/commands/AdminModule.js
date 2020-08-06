@@ -3,11 +3,11 @@ const capitalize = require('lodash.capitalize');
 const camelCase = require('lodash.camelcase');
 const fs = require('fs');
 const vuexModule = require('./VuexModule');
-const testFiles = require('./addTests')
+const testFiles = require('./addTests');
 const utils = require('../utils/index');
 
 const createEntryComponent = (entryPageFile, name) => {
-  fs.copyFileSync('node_modules/@apok/admin/cli/templates/PageEntry.vue', entryPageFile);
+  fs.copyFileSync('node_modules/@apok/admin/cli/templates/admin/PageEntry.vue', entryPageFile);
   let entryPageContent = fs.readFileSync(entryPageFile, 'utf-8');
   entryPageContent = entryPageContent.replace(/\%MODULE_NAME\%/g, name);
   fs.writeFileSync(entryPageFile, entryPageContent);
@@ -15,7 +15,7 @@ const createEntryComponent = (entryPageFile, name) => {
 };
 
 const createListComponent = (listPageFile, moduleName, vuexModule, crudObject) => {
-  fs.copyFileSync('node_modules/@apok/admin/cli/templates/PageList.vue', listPageFile);
+  fs.copyFileSync('node_modules/@apok/admin/cli/templates/admin/PageList.vue', listPageFile);
   let listPageContent = fs.readFileSync(listPageFile, 'utf-8');
   listPageContent = listPageContent.replace(/\%MODULE_NAME\%/g, moduleName);
   listPageContent = listPageContent.replace(/\%VUEX_MODULE\%/g, vuexModule);
@@ -25,7 +25,7 @@ const createListComponent = (listPageFile, moduleName, vuexModule, crudObject) =
 };
 
 const createEditComponent = (editPageFile, moduleName, vuexModule, crudObject, crudObjectVar) => {
-  fs.copyFileSync('node_modules/@apok/admin/cli/templates/PageEdit.vue', editPageFile);
+  fs.copyFileSync('node_modules/@apok/admin/cli/templates/admin/PageEdit.vue', editPageFile);
   let editPageContent = fs.readFileSync(editPageFile, 'utf-8');
   editPageContent = editPageContent.replace(/\%MODULE_NAME\%/g, moduleName);
   editPageContent = editPageContent.replace(/\%VUEX_MODULE\%/g, vuexModule);
@@ -36,7 +36,7 @@ const createEditComponent = (editPageFile, moduleName, vuexModule, crudObject, c
 };
 
 const createRoutesFile = (routesFile, moduleName) => {
-  fs.copyFileSync('node_modules/@apok/admin/cli/templates/PageRoutes.js', routesFile);
+  fs.copyFileSync('node_modules/@apok/admin/cli/templates/admin/PageRoutes.js', routesFile);
   let routesFileContent = fs.readFileSync(routesFile, 'utf-8');
   routesFileContent = routesFileContent.replace(/\%MODULE_NAME\%/g, moduleName);
   routesFileContent = routesFileContent.replace(/\%MODULE_NAME_LOWER\%/g, moduleName.toLowerCase());
