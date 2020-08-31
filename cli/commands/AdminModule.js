@@ -60,6 +60,10 @@ const create = ({ name, vuex, vuexVar, createVuex, withTests }) => {
     });
   }
 
+  if(!vuex){
+    vuex = name;
+  }
+
   const destFolder = `src/features/${name}`;
 
   utils.mkdir(destFolder);
