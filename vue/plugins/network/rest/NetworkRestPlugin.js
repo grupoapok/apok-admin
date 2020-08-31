@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import router from 'vue-router'
+import router from '@/router'
 import axios from "axios";
 import {executeVuexRequestFactory} from './networkFunctions'
 

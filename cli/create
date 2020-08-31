@@ -8,11 +8,11 @@ const yargs = require('yargs');
 const args = yargs
   .command('vuex:module', '', yargs => yargs.option('name', { describe: 'Name of the new module', demandOption: true})
     .option('actions', { describe: 'Comma-separated list of actions', requiresArg: true })
-    .option('crud', { describe: 'Create CRUD actions', conflicts: 'actions', boolean: true })
+    .option('crud', { describe: 'Create CRUD actions', boolean: true })
     .options('withTests', {describe: 'Generate test files for current modules', boolean: true})
   )
   .command('admin:module', '', yargs => yargs.option('name', { desc: 'Name of the new Module', demandOption: true})
-    .option('vuex', { desc: 'Name of the corresponding vuex module', conflicts: 'createVuex' })
+    .option('vuex', { desc: 'Name of the corresponding vuex module',})
     .option('vuexVar', { desc: 'Name of the variable to bind to Data in edit/details views', demandOption: true})
     .option('createVuex', { desc: 'create Vuex Module when running this command', boolean: true })
     .options('withTests', {describe: 'Generate test files for current modules', boolean: true})
