@@ -57,6 +57,22 @@ const createActionsFile = (actionsFile, actionsArr, crud) => {
     });
     typesImport += "\r} from './types';\n"
   }
+  if(crud) {
+    typesImport +=
+      "import Vue from 'vue';\n" +
+      "import {\n" +
+      "  CHANGE_PAGE,\n" +
+      "  CHANGE_PAGE_SIZE,\n" +
+      "  DELETE_ITEM,\n" +
+      "  GET_ITEM,\n" +
+      "  GET_ITEM_LIST,\n" +
+      "  RESET_ITEM,\n" +
+      "  RESET_LIST,\n" +
+      "  SAVE_ITEM,\n" +
+      "} from '@/store/ListTypes';\n\n";
+    const path = "node_modules/@apok/admin/cli/templates/vuex/actions.js";
+    actions += "\n" + fs.readFileSync(path, 'utf-8');
+  }
 
   fs.open(actionsFile, 'w', (err, file) => {
     fs.writeFileSync(file, typesImport+actions)
