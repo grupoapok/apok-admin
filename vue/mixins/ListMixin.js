@@ -55,8 +55,8 @@ export default namespace => ({
     },
     confirmDelete(id) {
       this.idToDelete = id;
-      if (this.$dialog) {
-        this.$dialog.confirm({
+      if (this.$buefy.dialog) {
+        this.$buefy.dialog.confirm({
           title: this.$t('dialogs.delete.title'),
           message: this.$t('dialogs.delete.text'),
           type: 'is-danger',

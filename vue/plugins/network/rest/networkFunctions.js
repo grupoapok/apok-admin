@@ -1,7 +1,7 @@
 export const executeVuexRequestFactory = (httpClient) => (context, action, url, params, method = "get") => {
     context.commit(action, { meta: "PENDING", data: params });
     let reqPromise;
-    switch(method){
+    switch(method.toLowerCase()){
         case "get":
             reqPromise = httpClient.get(url, params);
             break;
